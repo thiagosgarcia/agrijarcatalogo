@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f7a39" />
+    <meta
+      name="description"
+      content="Catálogo Agrijar com as principais marcas e pedido via WhatsApp."
+    />
+    <title>Agrijar | Catálogo</title>
+    <link rel="icon" href="./assets/logo/agrijar-minimal.jpeg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./data/catalog.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand-mark" href="#top" aria-label="Agrijar">
+          <img src="./assets/logo/agrijar-retangular.jpeg" alt="Agrijar" />
+        </a>
+
+        <button
+          class="cart-toggle"
+          id="cart-toggle"
+          type="button"
+          aria-controls="cart-drawer"
+          aria-expanded="false"
+        >
+          <span>Carrinho</span>
+          <strong id="cart-count">0</strong>
+        </button>
+      </header>
+
+      <main class="main" id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">Catálogo AGRIJAR</span>
+            <h1>Escolha as rações e peça no WhatsApp</h1>
+            <p>
+              Navegue por marcas, pesquise no catálogo completo e monte seu
+              pedido em poucos toques.
+            </p>
+
+            <div class="hero-badges" aria-label="Resumo do catálogo">
+              <div>
+                <strong id="brand-total">0</strong>
+                <span>marcas</span>
+              </div>
+              <div>
+                <strong id="product-total">0</strong>
+                <span>produtos</span>
+              </div>
+              <div>
+                <strong id="cart-total">0</strong>
+                <span>no carrinho</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <img
+              class="hero-card__icon"
+              src="./assets/logo/agrijar-minimal.jpeg"
+              alt=""
+              aria-hidden="true"
+            />
+            <p>
+              Encontre os produtos que você precisa, com a qualidade e confiança
+              AGRIJAR.               
+            </p>
+            <p class="hero-note">
+              O pedido finaliza direto no WhatsApp da loja.
+            </p>
+          </div>
+        </section>
+
+        <section class="toolbar">
+          <label class="search">
+            <span>Buscar produtos</span>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Nome, GTIN, descrição ou especificações"
+              autocomplete="off"
+            />
+          </label>
+
+          <div class="brand-filter" id="brand-filter" aria-label="Filtrar por marca"></div>
+        </section>
+
+        <section class="results-bar" aria-live="polite">
+          <p id="results-summary">Carregando catálogo...</p>
+        </section>
+
+        <section class="products-grid" id="products-grid" aria-label="Lista de produtos"></section>
+
+        <div class="empty-state hidden" id="empty-state">
+          <h2>Nenhum produto encontrado</h2>
+          <p>Refaça a busca ou remova o filtro de marca para ver mais itens.</p>
+        </div>
+      </main>
+
+      <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+        <div class="cart-drawer__header">
+          <div>
+            <span class="eyebrow">Seu carrinho</span>
+            <h2>Pedido para WhatsApp</h2>
+          </div>
+
+          <button
+            type="button"
+            class="icon-button"
+            id="cart-close"
+            aria-label="Fechar carrinho"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="cart-drawer__body">
+          <p class="cart-empty" id="cart-empty">
+            Adicione produtos para montar seu pedido.
+          </p>
+          <ul class="cart-list" id="cart-list"></ul>
+        </div>
+
+        <div class="cart-drawer__footer">
+          <div class="cart-summary">
+            <span>Itens</span>
+            <strong id="cart-summary-count">0</strong>
+          </div>
+
+          <button type="button" class="whatsapp-button" id="whatsapp-button">
+            Pedir no whatsapp
+          </button>
+
+          <button type="button" class="ghost-button" id="clear-cart">
+            Limpar carrinho
+          </button>
+        </div>
+      </aside>
+
+      <div class="backdrop hidden" id="backdrop"></div>
+
+      <div class="product-modal hidden" id="product-modal" aria-hidden="true">
+        <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+          <button
+            type="button"
+            class="icon-button modal-close"
+            id="modal-close"
+            aria-label="Fechar detalhes do produto"
+          >
+            ×
+          </button>
+
+          <div class="product-modal__media">
+            <img id="modal-image" alt="" />
+          </div>
+
+          <div class="product-modal__content">
+            <span class="badge" id="modal-brand"></span>
+            <h2 id="product-modal-title"></h2>
+            <p class="gtin-line">
+              GTIN <strong id="modal-gtin"></strong>
+            </p>
+
+            <div class="modal-block">
+              <h3>Descrição</h3>
+              <p id="modal-description"></p>
+            </div>
+
+            <div class="modal-block">
+              <h3>Especificações</h3>
+              <div class="spec-table" id="modal-specs"></div>
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="primary-button" id="modal-add">
+                Adicionar ao carrinho
+              </button>
+              <button type="button" class="ghost-button" id="modal-close-bottom">
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sticky-action hidden" id="sticky-action">
+        <div>
+          <span>Pedido pronto?</span>
+          <strong id="sticky-count">0 itens no carrinho</strong>
+        </div>
+        <button type="button" class="whatsapp-button" id="sticky-whatsapp">
+          Pedir no whatsapp
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
